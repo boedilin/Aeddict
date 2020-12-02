@@ -1,0 +1,67 @@
+{
+  "tree": [
+    {
+      "nodeID": 1,
+      "question": "Was für ein Training suchst du?",
+      "imageNames": [
+      	{
+      	  "image": "Was_für_ein_Training_suchst_du.png"
+      	}
+      ],
+      "data": [
+        {
+          "answer": "Funktionelle Fitness",
+          "tags": "funktionelle_fitness",
+          "successor": 2
+        },
+        {
+          "answer": "CrossFit",
+          "tags": "crossfit",
+          "successor": 3
+        }
+      ]
+    },
+    {
+      "nodeID": 2,
+      "question": "Wie oft möchtest du pro Woche trainieren",
+      "imageNames": [
+      	{
+      	  "image": "Wie_oft_möchtest_du_pro_Woche_trainieren.png"
+      	}
+      ],
+      "data": [
+        {
+          "answer": "1-2 mal",
+          "tags": "1_2_mal",
+          "successor": -1
+        },
+        {
+          "answer": "3-4 mal",
+          "tags": "3_4_mal",
+          "successor": -1
+        }
+      ]
+    },
+    {
+      "nodeID": 3,
+      "question": "Was ist dein Trainingsziel?",
+      "imageNames": [
+      	{
+      	  "image": "Was_ist_dein_Trainingsziel.png"
+      	}
+      ],
+      "data": [
+        {
+          "answer": "Allround Fitness",
+          "tags": "allround_fitness",
+          "successor": -1
+        },
+        {
+          "answer": "Wettkampf (kompetitiv)",
+          "tags": "wettkampf",
+          "successor": -1
+        }
+      ]
+    }
+  ]
+}

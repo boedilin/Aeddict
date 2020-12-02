@@ -1,0 +1,25 @@
+{
+  "tree": [
+    {
+      "nodeID": 1,
+      "question": "Was ist dein Trainingsfokus?",
+      "imageNames": [
+      	{
+      	  "image": "Compex.jpg"
+      	}
+      ],
+      "data": [
+        {
+          "answer": "Fokus auf Kraft, Figur und Muskeldefinition",
+          "tags": "kraft_figur_muskeldefinition",
+          "successor": -1
+        },
+        {
+          "answer": "Fokus auf mehr Energie, höhere Leistung und Regeneration",
+          "tags": "energie_leistung_regeneration",
+          "successor": -1
+        }
+      ]
+    }
+  ]
+}

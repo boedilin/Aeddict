@@ -1,0 +1,155 @@
+{
+  "tree": [
+    {
+      "nodeID": 1,
+      "question": "Woran willst du primär arbeiten?",
+      "imageNames": [
+      	{
+      	  "image": "woran_willst_du_primaer_arbeiten.jpg"
+      	}
+      ],
+      "data": [
+        {
+          "answer": "Gewichtsverlust",
+          "tags": "gewichtsverlust",
+          "successor": 2
+        },
+        {
+          "answer": "Ausdauer",
+          "tags": "Ausdauer",
+          "successor": 3
+        },
+        {
+          "answer": "Muskelaufbau",
+          "tags": "muskelaufbau",
+          "successor": 4
+        },
+        {
+          "answer": "Recovery und Aufbau",
+          "tags": "recovery_aufbau",
+          "successor": 5
+        },
+        {
+          "answer": "Definition 'Get Lean'",
+          "tags": "get_lean",
+          "successor": 6
+        }
+      ]
+    },
+    {
+      "nodeID": 2,
+      "question": "Wie willst du abnehmen?",
+       "imageNames": [
+      	{
+      	  "image": "wie_willst_du_abnehmen.jpg"
+      	}
+      ],
+      "data": [
+        {
+          "answer": "mit Ausdauersport",
+          "tags": "ausdauersport",
+          "successor": -1
+        },
+        {
+          "answer": "mit Kraftsport",
+          "tags": "kraftsport",
+          "successor": -1
+        }
+      ]
+    },
+    {
+      "nodeID": 3,
+      "question": "Mit welchem Ziel willst du deine Ausdauer verbessern?",
+      "imageNames": [
+      	{
+      	  "image": "mit_welchen_ziel_willst_du_deine_ausdauer_verbessern.jpg"
+      	}
+      ],
+      "data": [
+        {
+          "answer": "Leistungssport",
+          "tags": "leistungssport",
+          "successor": -1
+        },
+        {
+          "answer": "Abnehmen",
+          "tags": "abnehmen",
+          "successor": -1
+        },
+        {
+          "answer": "Wohlfühlen",
+          "tags": "wohlfuehlen",
+          "successor": -1
+        }
+      ]
+    },
+    {
+      "nodeID": 4,
+      "question": "Mit welchem Ziel willst du Muskeln aufbauen?",
+       "imageNames": [
+      	{
+      	  "image": "mit_welchem_ziel_willst_du_muskeln_aufbauen.jpg"
+      	}
+      ],
+      "data": [
+        {
+          "answer": "Bodybuilding",
+          "tags": "bodybuilding",
+          "successor": -1
+        },
+        {
+          "answer": "Allround Fit",
+          "tags": "allround_fit",
+          "successor": -1
+        },
+        {
+          "answer": "Kraft",
+          "tags": "kraft",
+          "successor": -1
+        }
+      ]
+    },
+    {
+      "nodeID": 5,
+      "question": "Mit welchem Ziel willst du deine Recovery und dein Aufbau verbessern?",
+      "imageNames": [
+      	{
+      	  "image": "mit_welchem_ziel_willst_du_deine_recovery_verbessern.jpg"
+      	}
+      ],
+      "data": [
+        {
+          "answer": "Leistungssteigerung",
+          "tags": "leistungssteigerung_recovery",
+          "successor": -1
+        },
+        {
+          "answer": "Muskelaufbau",
+          "tags": "muskelaufbau_recovery",
+          "successor": -1
+        }
+      ]
+    },
+    {
+      "nodeID": 6,
+      "question": "Wodurch willst du definierter werden?",
+      "imageNames": [
+      	{
+      	  "image": "mit_welchem_ziel_willst_du_definierter_werden.jpg"
+      	}
+      ],
+      "data": [
+        {
+          "answer": "durch Muskelaufbau und Fettreduktion",
+          "tags": "muskelaufbau_fettreduktion",
+          "successor": -1
+        },
+        {
+          "answer": "primär durch Fettreduktion",
+          "tags": "fettreduktion",
+          "successor": -1
+        }
+      ]
+    }
+  ]
+}

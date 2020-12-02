@@ -1,0 +1,7 @@
+INDEX VERSION 1.3+/Users/Linda/Documents/aeddict/.metadata/.plugins/org.eclipse.wst.jsdt.core/indexes
+2465495447.index
+1806945394.index
+847845661.index
+2003565298.index
+3474754116.index
+4189372780.index

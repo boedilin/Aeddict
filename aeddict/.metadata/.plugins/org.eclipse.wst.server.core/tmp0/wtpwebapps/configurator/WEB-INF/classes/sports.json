@@ -1,0 +1,22 @@
+{
+  "sports": [
+    {
+      "sport": "Crossfit",
+      "filename": "crossfitquestions.json",
+      "tag": "crossfit",
+      "imageName": "crossfit.jpeg"
+    },
+    {
+      "sport": "nutrition",
+      "filename": "nutritionquestions.json",
+      "tag": "nutrition",
+      "imageName": "nutrition.jpg"
+    },
+    {
+      "sport": "trainingsupport",
+      "filename": "compex.json",
+      "tag": "trainingsupport",
+      "imageName": "Training_Support.jpg"    
+      }
+ ]
+}

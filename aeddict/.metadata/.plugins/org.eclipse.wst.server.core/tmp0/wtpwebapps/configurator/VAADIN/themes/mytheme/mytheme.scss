@@ -1,0 +1,221 @@
+// If you edit this file you need to compile the theme. See README.md for details.
+
+// Global variable overrides. Must be declared before importing Valo.
+
+// Defines the plaintext font size, weight and family. Font size affects general component sizing.
+//$v-font-size: 16px;
+//$v-font-weight: 300;
+//$v-font-family: "Open Sans", sans-serif;
+
+// Defines the border used by all components.
+//$v-border: 1px solid (v-shade 0.7);
+//$v-border-radius: 4px;
+
+// Affects the color of some component elements, e.g Button, Panel title, etc
+//$v-background-color: hsl(210, 0%, 98%);
+// Affects the color of content areas, e.g  Panel and Window content, TextField input etc
+//$v-app-background-color: $v-background-color;
+
+// Affects the visual appearance of all components
+//$v-gradient: v-linear 8%;
+//$v-bevel-depth: 30%;
+//$v-shadow-opacity: 5%;
+
+// Defines colors for indicating status (focus, success, failure)
+//$v-focus-color: valo-focus-color(); // Calculates a suitable color automatically
+//$v-friendly-color: #2c9720;
+//$v-error-indicator-color: #ed473b;
+
+// For more information, see: https://vaadin.com/book/-/page/themes.valo.html
+// Example variants can be copy/pasted from https://vaadin.com/wiki/-/wiki/Main/Valo+Examples
+
+@import "../valo/valo.scss";
+
+@mixin mytheme {
+  @include valo;
+
+$v-font-family: "Helvatica Neue", sans-serif;
+  // Insert your own theme rules here
+  
+.aeddict_logo {
+	cursor: pointer;
+	margin-bottom: 5%;
+	margin-left:10%;
+	}
+
+.shopifyIcon {
+	cursor: pointer;
+	margin-bottom: 5%;
+	}
+
+.header {
+	font-size: 200%;
+	font-weight: bold;
+	margin-bottom: 5%;
+	color:#141e41;
+	}
+
+.footer {
+	margin-top:5%;
+	font-size: 70%;
+	color: #808080;
+	}
+
+.buttonQuestion {
+	background: #141e41;
+	border-radius: 10px;
+	box-shadow: none;
+	border: none;
+	color: #f1f2f4;
+	font-size: 100%;
+	margin-bottom: 10%;
+	}
+
+.sports {
+	cursor: pointer;
+	margin-bottom: 5%;
+	}
+
+.questionImage {
+    margin-bottom: 5%;
+  }
+ 
+.disclaimer {
+    font-size: 70%;
+    color: #141e41;
+    margin-top:none;
+    text-align: center;
+  }
+ 
+.link{ 
+	text-decoration: none; 
+	font-size: 80%;
+	color: black;
+} 
+.link a:hover{ 
+	color: #f1f2f4;
+} 
+
+.sortimentDesktop{ 
+	text-decoration: none; 
+	font-size: 95%;
+	color: black;
+	margin-right:5%;
+	margin-bottom: 15px;
+	//margin-bottom:20%;
+} 
+.sortimentDesktop a:hover{ 
+	color: gray;
+} 
+
+.sortimentSmall{ 
+	text-decoration: none; 
+	font-size: 95%;
+	color: black;
+	//margin-right:7%;
+	margin-bottom: 15px;
+	//margin-bottom:20%;
+} 
+.sortimentSmall a:hover{ 
+	color: gray;
+} 
+
+
+.searchImage {
+	margin-bottom: -10%;
+	margin-left:30%;
+	}
+
+.link {
+	margin-right:10px;
+	margin-left:10px;
+	}
+
+.imageBackdrop {
+	background: transparent url(images/crossfit/was_ist_dein_geschlecht.jpg); background-repeat: no-repeat; background-size: 100%;
+}
+
+.disclaimer_beratung {
+	margin-right:10px;
+	margin-left:10px;
+	color: #edba0f;
+	text-decoration: none; 
+	font-size: 80%;
+	text-align: center;
+	}
+
+.disclaimer_beratung a:hover{ 
+	color: gray;
+} 
+
+.beratungTitel {
+	color: black;
+	font-size: 200%;
+	font-weight: bold;
+	}
+
+/* Small Screens */
+
+.grid-container {
+    display: grid;
+    /* sets the height of each row */
+    grid-template-rows: 50px 50px auto 1fr 30px;
+    /* defines the grid areas */
+    grid-template-areas: 
+        "header" 
+        "title" 
+        "main" 
+        "footer";
+}
+
+/* Medium Screens */
+
+@media only screen and (min-width: 768px) {
+    .grid-container {
+        /* sets the width of each column */
+        grid-template-columns: 200px 1fr;
+        /* sets the height of each row */
+        grid-template-rows: 50px 1fr 1fr 30px;
+        /* defines the grid areas */
+        grid-template-areas: 
+            "header   header" 
+            "title title "
+            "main      main" 
+            "footer   footer";
+    }
+}
+
+/* Large Screens */
+
+@media only screen and (min-width: 1200px) {
+    .grid-container {
+        /* sets the width of each column */
+        grid-template-columns: 200px 1fr 1fr;
+        /* sets the height of each row */
+        grid-template-rows: 50px 1fr 30px;
+        /* defines the grid areas */
+        grid-template-areas: 
+            "header  header     header"
+            "title     title       title"  
+            "main     main       main" 
+            "footer  footer     footer";
+    }
+}
+
+body div div div:nth-child(2) div:nth-child(2) div div{
+    grid-area: header;
+}
+
+body div div div:nth-child(2) div:nth-child(2) div div:nth-child(2) {
+    grid-area: title;
+}
+
+body div div div:nth-child(2) div:nth-child(2) div div:nth-child(3) {
+    grid-area: main;
+}
+
+body div div div:nth-child(2) div:nth-child(2) div div:nth-child(4) {
+    grid-area: footer;
+}
+
+}

@@ -1,0 +1,577 @@
+package com.aeddict.configurator;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.servlet.annotation.WebServlet;
+
+import org.vaadin.cssinject.CSSInject;
+
+import com.aeddict.data.DecisionTree;
+import com.aeddict.data.LayoutMode;
+import com.aeddict.data.QuestionNode;
+import com.aeddict.data.QuestionNodeData;
+import com.aeddict.data.QuestionNodeImages;
+import com.aeddict.data.Sports;
+import com.aeddict.data.SportsNode;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.server.ClassResource;
+import com.vaadin.server.ExternalResource;
+import com.vaadin.server.Page;
+import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinServlet;
+import com.vaadin.server.VaadinSession;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Embedded;
+import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Link;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
+
+/**
+ * This UI is the application entry point. A UI may either represent a browser
+ * window (or tab) or some part of a html page where a Vaadin application is
+ * embedded.
+ * <p>
+ * The UI is initialized using {@link #init(VaadinRequest)}. This method is
+ * intended to be overridden to add component to the user interface and
+ * initialize non-component functionality.
+ */
+@Theme("mytheme")
+public class MyUI extends UI {
+	private static final long serialVersionUID = -3149391577634988923L;
+	private DecisionTree questionTree;
+	private Sports sportsTree = readSportsFile();
+	private String tags = "";
+	private String collection = "";
+	private Embedded aeddict_logo = new Embedded("", new ClassResource("/images/logo_yellow_blue_medium.png"));
+	private Embedded shoppingcart = new Embedded("", new ClassResource("/images/shoppingcart.png"));
+	private Embedded account = new Embedded("", new ClassResource("/images/account.png"));
+	private Embedded facebook = new Embedded("", new ClassResource("/images/facebook.png"));
+	private Embedded twitter = new Embedded("", new ClassResource("/images/twitter.png"));
+	private Embedded instagram = new Embedded("", new ClassResource("/images/instagram.png"));
+	private Embedded vimeo = new Embedded("", new ClassResource("/images/vimeo.png"));
+	private int maxCols;
+	
+	@Override
+	protected void init(VaadinRequest vaadinRequest) {
+		VaadinSession.getCurrent().getSession().setMaxInactiveInterval(600);
+		buildMainPage();
+	}
+	
+
+	private void buildMainPage() {
+		Panel mainPanel = new Panel();
+		
+		final VerticalLayout layout = new VerticalLayout();
+		layout.setSizeFull();
+		
+		if(getLayoutMode() == LayoutMode.DESKTOP) {
+			HorizontalLayout header = addDesktopHeader();
+			layout.addComponent(header);
+			layout.setComponentAlignment(header, Alignment.TOP_CENTER);
+		} else {
+			VerticalLayout header = addPhoneHeader();
+			layout.addComponent(header);
+			layout.setComponentAlignment(header, Alignment.TOP_CENTER);
+		}
+		
+		Label beratungTitel = new Label("Beratung");
+		beratungTitel.addStyleName("beratungTitel");
+		layout.addComponent(beratungTitel);
+		layout.setComponentAlignment(beratungTitel, Alignment.MIDDLE_CENTER);
+		
+		ArrayList<SportsNode> sports = sportsTree.getTree();
+		
+		if(sports.size()%3 == 0){
+			maxCols = 3;
+		} else {
+			maxCols = 2;
+		}
+		
+
+		if(getLayoutMode() == LayoutMode.SMALL){
+			maxCols = 1;
+		}
+		
+		int cols = Math.min( sports.size(), maxCols );
+		int rows = ( sports.size() - 1 ) / cols + 1;
+		
+		GridLayout buttonsSport = new GridLayout( cols, rows );
+		buttonsSport.setSizeFull();
+		buttonsSport.setSpacing( true );
+
+		for (int i = 0; i < sports.size(); i++) {
+			final SportsNode node = sports.get(i);
+			Embedded sportImage = new Embedded("", new ClassResource("/images/" + node.getImageName()));
+			sportImage.addStyleName("sports");
+			sportImage.setSizeFull();
+			sportImage.addClickListener(e -> {
+				questionTree = readDecisionTree(node.getFilename());
+				tags += node.getTag();
+				collection = node.getTag();
+				getFirstQuestionSite();
+			});
+			
+			buttonsSport.addComponent(sportImage);
+		}
+		
+		layout.addComponent(buttonsSport);
+		
+		if(getLayoutMode() == LayoutMode.DESKTOP) {
+			VerticalLayout footer = addDesktopFooter();;
+			layout.addComponent(footer);
+			layout.setComponentAlignment(footer, Alignment.BOTTOM_CENTER);
+		} else {
+			VerticalLayout footer = addPhoneFooter();
+			layout.addComponent(footer);
+			layout.setComponentAlignment(footer, Alignment.BOTTOM_CENTER);
+		}
+		
+		layout.setComponentAlignment(buttonsSport, Alignment.TOP_CENTER);
+		//layout.setExpandRatio(buttonsSport, 1.0f);
+		
+		mainPanel.setContent(layout);
+		setContent(mainPanel);
+	}
+	
+	private void getFirstQuestionSite(){
+		Panel mainPanel = new Panel();
+		
+		final VerticalLayout layout = new VerticalLayout();
+		layout.setSizeFull();
+
+		QuestionNode firstNode = questionTree.getFirstNode();
+
+		displayQuestion(layout, mainPanel, firstNode);
+	}
+
+	private void setNewQuestionSite(QuestionNodeData successorNodeData) {
+		Panel mainPanel = new Panel();
+		
+		final VerticalLayout layout = new VerticalLayout();
+		layout.setSizeFull();
+
+		tags += "+" + successorNodeData.getTags();
+
+		int successorId = successorNodeData.getSuccessor();
+
+		if (successorId == -1) {
+			Page.getCurrent().open("http://www.aeddict.com/search?type=article,product&q=" + tags, "_self", true);
+		} else {
+
+			QuestionNode node = questionTree.getSuccessorNode(successorId);
+
+			displayQuestion(layout, mainPanel, node);
+		}
+	}
+
+	private void displayQuestion(final VerticalLayout layout, Panel mainPanel, QuestionNode node) {
+		if(getLayoutMode() == LayoutMode.DESKTOP) {
+			HorizontalLayout header = addDesktopHeader();
+			layout.addComponent(header);
+			layout.setComponentAlignment(header, Alignment.TOP_CENTER);
+		} else {
+			VerticalLayout header = addPhoneHeader();
+			layout.addComponent(header);
+			layout.setComponentAlignment(header, Alignment.TOP_CENTER);
+		}
+		
+		/*final Label question = new Label(node.getQuestion());
+		question.addStyleName("header");*/
+
+		ArrayList<QuestionNodeData> data = node.getData();
+		
+		if(data.size()%3 == 0){
+			maxCols = 3;
+		
+		} else {
+			maxCols = 2;
+		}
+		
+		if(getLayoutMode() == LayoutMode.SMALL){
+			maxCols = 1;
+		}
+		
+		int cols = Math.min( data.size(), maxCols );
+		int rows = ( data.size() - 1 ) / cols + 1;
+		
+		ArrayList<QuestionNodeImages> imageNames = node.getImageNames();
+		
+		VerticalLayout questionLayout = new VerticalLayout();
+		questionLayout.setSizeFull();	
+		questionLayout.setHeight("300px");
+
+		String sportImage;
+		String weiblich = "weiblich";
+		String path = "VAADIN/themes/mytheme/images/";
+				
+		if(imageNames.size() == 1){
+			sportImage = path + collection +"/" + imageNames.get(0).getImage();
+		} else if(tags.toLowerCase().contains(weiblich)) {
+			sportImage = path + collection +"/" + imageNames.get(0).getImage();
+		} else {
+			sportImage = path + collection +"/" + imageNames.get(1).getImage();
+		}
+		
+		CSSInject css = new CSSInject(getUI());
+		css.setStyles(".mytheme .imageBackdrop { background: transparent url(" + sportImage + "); background-repeat: no-repeat; background-size: 100%; }" );
+		questionLayout.setStyleName("imageBackdrop"); 
+			
+		GridLayout buttons = new GridLayout( cols, rows ); 
+		buttons.setSizeFull();
+		if(rows == 1){
+			buttons.setHeight("50px");
+		} else if(rows == 2){
+			buttons.setHeight("100px");
+		} else {
+			buttons.setHeight("150px");
+		}
+		buttons.setSpacing( true );
+
+		for (QuestionNodeData nodeData : data) {
+			Button button = new Button(nodeData.getAnswer());
+			button.setSizeFull();
+			button.addStyleName("buttonQuestion");
+			button.addClickListener(e -> {
+				setNewQuestionSite(nodeData);
+			});
+			buttons.addComponent(button);
+		}
+		
+		questionLayout.addComponent(buttons);
+		questionLayout.setComponentAlignment(buttons, Alignment.BOTTOM_CENTER);
+		
+ 		Label disclaimer = new Label("Um für dich die perfekten und passenden Produkte zu finden, möchten wir mehr über dich erfahren. Bitte klicke dich durch unseren Fragenkatalog.");
+		disclaimer.setSizeFull(); 
+		disclaimer.addStyleName("disclaimer");
+		
+		layout.addComponent(questionLayout);
+		layout.addComponent(disclaimer);
+		
+		if(getLayoutMode() == LayoutMode.DESKTOP) {
+			VerticalLayout footer = addDesktopFooter();;
+			layout.addComponent(footer);
+			layout.setComponentAlignment(footer, Alignment.BOTTOM_CENTER);
+		} else {
+			VerticalLayout footer = addPhoneFooter();
+			layout.addComponent(footer);
+			layout.setComponentAlignment(footer, Alignment.BOTTOM_CENTER);
+		}
+		
+		layout.setComponentAlignment(disclaimer, Alignment.MIDDLE_CENTER);
+		
+		layout.setSizeFull();
+	
+		mainPanel.setContent(layout);
+		setContent(mainPanel);
+	}
+	
+	private HorizontalLayout addDesktopHeader(){
+		final HorizontalLayout header = new HorizontalLayout();
+		header.setSizeFull();
+		
+		aeddict_logo.addClickListener(e -> Page.getCurrent().open("http://www.aeddict.com", "_self", true));
+		aeddict_logo.setWidth("145px");
+		aeddict_logo.addStyleName("aeddict_logo");
+		
+		header.addComponent(aeddict_logo);
+		
+		HorizontalLayout links = new HorizontalLayout();
+		
+		Link linkSortiment = new Link("Zurück zum Sortiment", new ExternalResource("https://www.aeddict.com/collections"));
+		linkSortiment.addStyleName("sortimentDesktop");
+		links.addComponent(linkSortiment);
+		
+		header.addComponent(linkSortiment);
+		
+		HorizontalLayout shopifyIcons = new HorizontalLayout();
+		
+		Embedded searchImage = new Embedded("", new ClassResource("/images/search.png"));
+		searchImage.setWidth("20px");
+		searchImage.setStyleName("shopifyIcon");
+		searchImage.addClickListener(event ->Page.getCurrent().open("http://www.aeddict.com/search?q=", "_self", true));
+		shopifyIcons.addComponent(searchImage);
+	
+		
+		account.addClickListener(e -> Page.getCurrent().open("http://www.aeddict.com/account", "_self", true));
+		account.setWidth("20px");
+		account.addStyleName("shopifyIcon");
+		shopifyIcons.addComponent(account);
+		
+		shoppingcart.addClickListener(e -> Page.getCurrent().open("https://www.aeddict.com/cart", "_self", true));
+		shoppingcart.setWidth("20px");
+		shoppingcart.addStyleName("shopifyIcon");
+		shopifyIcons.addComponent(shoppingcart);	
+		
+		header.addComponent(shopifyIcons);
+		header.setComponentAlignment(aeddict_logo, Alignment.TOP_RIGHT);
+		header.setComponentAlignment(linkSortiment, Alignment.BOTTOM_CENTER);
+		header.setComponentAlignment(shopifyIcons, Alignment.TOP_LEFT);
+		header.setExpandRatio(linkSortiment, 1.0f);
+		
+		return header;
+	}
+	
+	private VerticalLayout addPhoneHeader(){
+		final VerticalLayout header = new VerticalLayout();
+		header.setSizeFull();
+		
+		HorizontalLayout shopifyIcons = new HorizontalLayout();
+		
+		Embedded searchImage = new Embedded("", new ClassResource("/images/search.png"));
+		searchImage.setWidth("20px");
+		searchImage.setStyleName("shopifyIcon");
+		searchImage.addClickListener(event ->Page.getCurrent().open("http://www.aeddict.com/search?q=", "_self", true));
+		shopifyIcons.addComponent(searchImage);
+	
+		
+		account.addClickListener(e -> Page.getCurrent().open("http://www.aeddict.com/account", "_self", true));
+		account.setWidth("20px");
+		account.addStyleName("shopifyIcon");
+		shopifyIcons.addComponent(account);
+		
+		shoppingcart.addClickListener(e -> Page.getCurrent().open("https://www.aeddict.com/cart", "_self", true));
+		shoppingcart.setWidth("20px");
+		shoppingcart.addStyleName("shopifyIcon");
+		shopifyIcons.addComponent(shoppingcart);	
+		
+		header.addComponent(shopifyIcons);
+		
+		aeddict_logo.addClickListener(e -> {tags = ""; buildMainPage();});
+		aeddict_logo.setWidth("125px");
+		aeddict_logo.addStyleName("aeddict_logo");
+		
+		header.addComponent(aeddict_logo);
+		
+		HorizontalLayout links = new HorizontalLayout();
+		
+		Link linkSortiment = new Link("Zurück zum Sortiment", new ExternalResource("https://www.aeddict.com/collections"));
+		linkSortiment.addStyleName("sortimentSmall");
+		links.addComponent(linkSortiment);
+		
+		header.addComponent(linkSortiment);
+		
+		header.setComponentAlignment(aeddict_logo, Alignment.TOP_CENTER);
+		header.setComponentAlignment(linkSortiment, Alignment.BOTTOM_CENTER);
+		header.setComponentAlignment(shopifyIcons, Alignment.TOP_CENTER);
+		header.setExpandRatio(linkSortiment, 1.0f);
+		
+		return header;
+	}
+
+	private VerticalLayout addDesktopFooter(){
+		final VerticalLayout foot = new VerticalLayout();
+		
+		final HorizontalLayout links = new HorizontalLayout();
+		links.setWidthUndefined();
+		links.setSpacing(true);
+		Link linkAeddict = new Link("Über aeddict", new ExternalResource("https://www.aeddict.com/pages/about-aeddict"));
+		Link linkAGB = new Link("AGB", new ExternalResource("https://www.aeddict.com/pages/agb"));
+		Link Datenschutz = new Link("Datenschutz", new ExternalResource("https://www.aeddict.com/pages/datenschutz"));
+		Link Kontakt = new Link("Kontakt", new ExternalResource("https://www.aeddict.com/pages/contact"));
+		Link FactsKonditionen = new Link("Facts & Konditionen", new ExternalResource("https://www.aeddict.com/pages/facts-konditionen"));
+		linkAeddict.addStyleName("link"); 
+		linkAGB.addStyleName("link");
+		Datenschutz.addStyleName("link");
+		Kontakt.addStyleName("link"); 
+		FactsKonditionen.addStyleName("link"); 
+				
+		links.addComponent(linkAeddict);
+		links.addComponent(linkAGB);
+		links.addComponent(Datenschutz);
+		links.addComponent(Kontakt);
+		links.addComponent(FactsKonditionen);
+		links.setComponentAlignment(linkAeddict,Alignment.TOP_CENTER);
+		links.setComponentAlignment(linkAGB,Alignment.TOP_CENTER);
+		links.setComponentAlignment(Datenschutz,Alignment.TOP_CENTER);
+		links.setComponentAlignment(Kontakt,Alignment.TOP_CENTER);
+		links.setComponentAlignment(FactsKonditionen,Alignment.TOP_CENTER);
+		
+		final HorizontalLayout socialMedia = new HorizontalLayout();
+		facebook.addClickListener(e -> Page.getCurrent().open("https://www.facebook.com/aeddict/", "_self", true));
+		instagram.addClickListener(e -> Page.getCurrent().open("https://www.instagram.com/aeddict_official/", "_self", true));
+		twitter.addClickListener(e -> Page.getCurrent().open("https://twitter.com/aeddict_", "_self", true));
+		vimeo.addClickListener(e -> Page.getCurrent().open("https://vimeo.com/user72161829", "_self", true));
+		
+		facebook.setWidth("25px");
+		instagram.setWidth("25px");
+		twitter.setWidth("25px");
+		vimeo.setWidth("25px");
+		
+		socialMedia.addComponent(facebook);
+		socialMedia.addComponent(twitter);
+		socialMedia.addComponent(instagram);
+		socialMedia.addComponent(vimeo);
+		
+		final Label footer = new Label("© 2017, aeddict");
+		footer.addStyleName("footer");
+		
+		foot.addComponent(links);
+		foot.addComponent(socialMedia);
+		foot.addComponent(footer);
+		
+		foot.setComponentAlignment(links,Alignment.TOP_CENTER);
+		foot.setComponentAlignment(socialMedia,Alignment.TOP_CENTER);
+		foot.setComponentAlignment(footer,Alignment.TOP_CENTER);
+		
+		return foot;
+	}
+	
+	private VerticalLayout addPhoneFooter(){
+		final VerticalLayout foot = new VerticalLayout();
+		Link linkAeddict = new Link("Über aeddict", new ExternalResource("https://www.aeddict.com/pages/about-aeddict"));
+		Link linkAGB = new Link("AGB", new ExternalResource("https://www.aeddict.com/pages/agb"));
+		Link Datenschutz = new Link("Datenschutz", new ExternalResource("https://www.aeddict.com/pages/datenschutz"));
+		Link Kontakt = new Link("Kontakt", new ExternalResource("https://www.aeddict.com/pages/contact"));
+		Link FactsKonditionen = new Link("Facts & Konditionen", new ExternalResource("https://www.aeddict.com/pages/facts-konditionen"));
+		linkAeddict.addStyleName("link"); 
+		linkAGB.addStyleName("link");
+		Datenschutz.addStyleName("link");
+		Kontakt.addStyleName("link"); 
+		FactsKonditionen.addStyleName("link"); 
+				
+		foot.addComponent(linkAeddict);
+		foot.addComponent(linkAGB);
+		foot.addComponent(Datenschutz);
+		foot.addComponent(Kontakt);
+		foot.addComponent(FactsKonditionen);
+		foot.setComponentAlignment(linkAeddict,Alignment.TOP_CENTER);
+		foot.setComponentAlignment(linkAGB,Alignment.TOP_CENTER);
+		foot.setComponentAlignment(Datenschutz,Alignment.TOP_CENTER);
+		foot.setComponentAlignment(Kontakt,Alignment.TOP_CENTER);
+		foot.setComponentAlignment(FactsKonditionen,Alignment.TOP_CENTER);
+		
+		final HorizontalLayout socialMedia = new HorizontalLayout();
+		facebook.addClickListener(e -> Page.getCurrent().open("https://www.facebook.com/aeddict/", "_self", true));
+		instagram.addClickListener(e -> Page.getCurrent().open("https://www.instagram.com/aeddict_official/", "_self", true));
+		twitter.addClickListener(e -> Page.getCurrent().open("https://twitter.com/aeddict_", "_self", true));
+		vimeo.addClickListener(e -> Page.getCurrent().open("https://vimeo.com/user72161829", "_self", true));
+		
+		facebook.setWidth("25px");
+		instagram.setWidth("25px");
+		twitter.setWidth("25px");
+		vimeo.setWidth("25px");
+		
+		socialMedia.addComponent(facebook);
+		socialMedia.addComponent(twitter);
+		socialMedia.addComponent(instagram);
+		socialMedia.addComponent(vimeo);
+		
+		final Label footer = new Label("© 2017, aeddict");
+		footer.addStyleName("footer");
+
+		foot.addComponent(socialMedia);
+		foot.addComponent(footer);
+		
+		foot.setComponentAlignment(socialMedia,Alignment.TOP_CENTER);
+		foot.setComponentAlignment(footer,Alignment.TOP_CENTER);
+		
+		return foot;
+	}
+	
+	private DecisionTree readDecisionTree(String filename) {
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			ClassLoader classLoader = getClass().getClassLoader();
+			File file = new File(classLoader.getResource(filename).getFile());
+			
+			return mapper.readValue(file, DecisionTree.class );
+			
+		} catch (JsonParseException e) {
+			displayErrorPage();
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			displayErrorPage();
+			e.printStackTrace();
+		} catch (IOException e) {
+			displayErrorPage();
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+	
+	private Sports readSportsFile(){
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			ClassLoader classLoader = getClass().getClassLoader();
+			File file = new File(classLoader.getResource("sports.json").getFile());
+			
+			return mapper.readValue(file, Sports.class );
+		} catch (JsonParseException e) {
+			displayErrorPage();
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			displayErrorPage();
+			e.printStackTrace();
+		} catch (IOException e) {
+			displayErrorPage();
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+	
+	private void displayErrorPage(){
+		final VerticalLayout layout = new VerticalLayout();
+		layout.setSizeFull();
+		
+		if(getLayoutMode() == LayoutMode.DESKTOP) {
+			HorizontalLayout header = addDesktopHeader();
+			layout.addComponent(header);
+			layout.setComponentAlignment(header, Alignment.TOP_CENTER);
+		} else {
+			VerticalLayout header = addPhoneHeader();
+			layout.addComponent(header);
+			layout.setComponentAlignment(header, Alignment.TOP_CENTER);
+		}
+		
+		final Label question = new Label();
+		question.addStyleName("header");
+		layout.addComponent(question);
+		
+		Embedded errorImage = new Embedded("", new ClassResource("/images/error.png"));
+		
+		layout.addComponent(errorImage);
+		
+		if(getLayoutMode() == LayoutMode.DESKTOP) {
+			VerticalLayout footer = addDesktopFooter();;
+			layout.addComponent(footer);
+			layout.setComponentAlignment(footer, Alignment.BOTTOM_CENTER);
+		} else {
+			VerticalLayout footer = addPhoneFooter();
+			layout.addComponent(footer);
+			layout.setComponentAlignment(footer, Alignment.BOTTOM_CENTER);
+		}
+		
+		layout.setComponentAlignment(question, Alignment.MIDDLE_CENTER);
+		layout.setComponentAlignment(errorImage, Alignment.MIDDLE_CENTER);
+	
+	}
+	
+	private LayoutMode getLayoutMode(){
+		 int width = UI.getCurrent().getPage().getBrowserWindowWidth();
+		   if (width < 800) {
+		       return LayoutMode.SMALL;
+		   } else {
+		       return LayoutMode.DESKTOP;
+		   }
+	}
+
+
+	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
+	@VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
+	public static class MyUIServlet extends VaadinServlet {
+		private static final long serialVersionUID = 8218352759243072096L;
+	}
+}

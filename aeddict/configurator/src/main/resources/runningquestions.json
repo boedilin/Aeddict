@@ -1,0 +1,62 @@
+{
+  "tree": [
+    {
+      "nodeID": 1,
+      "question": "How often do you run?",
+      "data": [
+        {
+          "answer": "2 times a week",
+          "tags": "2_times_week",
+          "successor": 2
+        },
+        {
+          "answer": "5 times a week",
+          "tags": "5_times_week",
+          "successor": 3
+        },
+        {
+          "answer": "once a month",
+          "tags": "once_month",
+          "successor": 3
+        },
+        {
+          "answer": "once a year",
+          "tags": "once_year",
+          "successor": 3
+        }
+      ]
+    },
+    {
+      "nodeID": 2,
+      "question": "Do you already have shoes",
+      "data": [
+        {
+          "answer": "yes",
+          "tags": "yes",
+          "successor": 3
+        },
+        {
+          "answer": "no",
+          "tags": "no",
+          "successor": 3
+        }
+      ]
+    },
+    {
+      "nodeID": 3,
+      "question": "Are you masculine or feminine?",
+      "data": [
+        {
+          "answer": "masculine",
+          "tags": "masculine",
+          "successor": 4
+        },
+        {
+          "answer": "feminine",
+          "tags": "feminine",
+          "successor": -1
+        }
+      ]
+    }
+  ]
+}

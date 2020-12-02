@@ -1,0 +1,68 @@
+{
+  "tree": [
+    {
+      "nodeID": 1,
+      "question": "How do you do?",
+      "data": [
+        {
+          "answer": "great",
+          "tags": "A",
+          "successor": 2
+        },
+        {
+          "answer": "bad",
+          "tags": "C+D",
+          "successor": 3
+        }
+      ]
+    },
+    {
+      "nodeID": 2,
+      "question": "How tall are you?",
+      "data": [
+        {
+          "answer": "5 feet",
+          "tags": "5_feet",
+          "successor": 3
+        },
+        {
+          "answer": "2 feet",
+          "tags": "2_feet",
+          "successor": 3
+        }
+      ]
+    },
+    {
+      "nodeID": 3,
+      "question": "Are you masculine or feminine?",
+      "data": [
+        {
+          "answer": "masculine",
+          "tags": "masculine",
+          "successor": 4
+        },
+        {
+          "answer": "feminine",
+          "tags": "feminine",
+          "successor": -1
+        }
+      ]
+    },
+    {
+      "nodeID": 4,
+      "question": "Are you a professional?",
+      "data": [
+        {
+          "answer": "yes",
+          "tags": "professional",
+          "successor": -1
+        },
+        {
+          "answer": "no",
+          "tags": "amateur",
+          "successor": -1
+        }
+      ]
+    }
+  ]
+}

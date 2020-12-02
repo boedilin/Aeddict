@@ -1,0 +1,390 @@
+{
+  "tree": [
+    {
+      "nodeID": 1,
+      "question": "Wie schätzt du dein Level ein?",
+      "imageNames": [
+      	{
+      	  "image": "wie_schaetzt_du_dein_level_ein.jpg"
+      	}
+      ],
+      "data": [
+        {
+          "answer": "Anfänger",
+          "tags": "anfaenger",
+          "successor": 2
+        },
+        {
+          "answer": "Fortgeschrittener",
+          "tags": "fortgeschrittener",
+          "successor": 3
+        },
+        {
+          "answer": "Hardliner",
+          "tags": "hardliner",
+          "successor": 4
+        }
+      ]
+    },
+    {
+      "nodeID": 2,
+      "question": "Wofür suchst du Equipment?",
+      "imageNames": [
+      	{
+      	  "image": "wofuer_suchst_du_equipment.jpg"
+      	}
+      ],
+      "data": [
+        {
+          "answer": "Beweglichkeit",
+          "tags": "beweglichkeit",
+          "successor": -1
+        },
+        {
+          "answer": "Basic Training",
+          "tags": "basic_training",
+          "successor": -1
+        },
+        {
+          "answer": "Basic Protection",
+          "tags": "basic_protection",
+          "successor": -1
+        }
+      ]
+    },
+    {
+      "nodeID": 3,
+      "question": "Was ist dein Geschlecht?",
+      "imageNames": [
+      	{
+      	  "image": "was_ist_dein_geschlecht.jpg"
+      	}
+      ],
+      "data": [
+        {
+          "answer": "Männlich",
+          "tags": "maennlich",
+          "successor": 4
+        },
+        {
+          "answer": "Weiblich",
+          "tags": "weiblich",
+          "successor": 5
+        }
+      ]
+    },
+    {
+      "nodeID": 4,
+      "question": "Wofür brauchst du Equipment?",
+      "imageNames": [
+      	{
+      	  "image": "wofuer_brauchst_du_equipment_f.jpg"
+      	},
+      	{
+      	  "image": "wofuer_brauchst_du_equipment_m.jpg"
+      	}
+      ],
+      "data": [
+        {
+          "answer": "Beweglichkeit",
+          "tags": "beweglichkeit",
+          "successor": -1
+        },
+        {
+          "answer": "Basic Training",
+          "tags": "basic_training",
+          "successor": -1
+        },
+        {
+          "answer": "Protection",
+          "tags": "protection",
+          "successor": -1
+        },
+        {
+          "answer": "Diverses Trainingsmaterial",
+          "tags": "diverses_trainingsmaterial",
+          "successor": 6
+        }
+      ]
+    },
+    {
+      "nodeID": 5,
+      "question": "Wofür brauchst du Equipment?",
+      "imageNames": [
+      	{
+      	  "image": "wofuer_brauchst_du_equipment_f.jpg"
+      	},
+      	{
+      	  "image": "wofuer_brauchst_du_equipment_m.jpg"
+      	}
+      ],
+      "data": [
+        {
+          "answer": "Beweglichkeit",
+          "tags": "beweglichkeit",
+          "successor": -1
+        },
+        {
+          "answer": "Basic Training",
+          "tags": "basic_training",
+          "successor": -1
+        },
+        {
+          "answer": "Protection",
+          "tags": "protection",
+          "successor": -1
+        },
+        {
+          "answer": "Diverses Trainingsmaterial",
+          "tags": "diverses_trainingsmaterial",
+          "successor": 7
+        }
+      ]
+    },
+    {
+      "nodeID": 6,
+      "question": "Wonach bist du auf der Suche?",
+      "imageNames": [
+      	{
+      	  "image": "wonach_bist_du_auf_der_suche_f.jpg"
+      	},
+      	{
+      	  "image": "wonach_bist_du_auf_der_suche_m.jpg"
+      	}
+      ],
+      "data": [
+        {
+          "answer": "Ausdauer",
+          "tags": "ausdauer",
+          "successor": -1
+        },
+        {
+          "answer": "Gewichtheben",
+          "tags": "gewichtheben_fm",
+          "successor": -1
+        },
+        {
+          "answer": "Kettlebell/Dumbbell",
+          "tags": "kettlebell_dumbbell_fm",
+          "successor": -1
+        },
+        {
+          "answer": "Kleines Homegym",
+          "tags": "kleines_homegym_fm",
+          "successor": -1
+        },
+        {
+          "answer": "Komplettes Homegym",
+          "tags": "komplettes_homegym_fm",
+          "successor": -1
+        }
+      ]
+    },
+    {
+      "nodeID": 7,
+      "question": "Wonach bist du auf der Suche?",
+      "imageNames": [
+      	{
+      	  "image": "wonach_bist_du_auf_der_suche_f.jpg"
+      	},
+      	{
+      	  "image": "wonach_bist_du_auf_der_suche_m.jpg"
+      	}
+      ],
+      "data": [
+        {
+          "answer": "Ausdauer",
+          "tags": "ausdauer",
+          "successor": -1
+        },
+        {
+          "answer": "Gewichtheben",
+          "tags": "gewichtheben_fw",
+          "successor": -1
+        },
+        {
+          "answer": "Kettlebell/Dumbbell",
+          "tags": "kettlebell_dumbbell_fw",
+          "successor": -1
+        },
+        {
+          "answer": "Kleines Homegym",
+          "tags": "kleines_homegym_fw",
+          "successor": -1
+        },
+        {
+          "answer": "Komplettes Homegym",
+          "tags": "komplettes_homegym_fw",
+          "successor": -1
+        }
+      ]
+    },
+    {
+      "nodeID": 4,
+      "question": "Was ist dein Geschlecht?",
+      "imageNames": [
+      	{
+      	  "image": "was_ist_dein_geschlecht.jpg"
+      	}
+      ],
+      "data": [
+        {
+          "answer": "Männlich",
+          "tags": "maennlich",
+          "successor": 8
+        },
+        {
+          "answer": "Weiblich",
+          "tags": "weiblich",
+          "successor": 9
+        }
+      ]
+    },
+    {
+      "nodeID": 8,
+      "question": "Wofür brauchst du Equipment?",
+      "imageNames": [
+      	{
+      	  "image": "wofuer_brauchst_du_equipment_f.jpg"
+      	},
+      	{
+      	  "image": "wofuer_brauchst_du_equipment_m.jpg"
+      	}
+      ],
+      "data": [
+        {
+          "answer": "Beweglichkeit",
+          "tags": "beweglichkeit",
+          "successor": -1
+        },
+        {
+          "answer": "Basic Training",
+          "tags": "basic_training",
+          "successor": -1
+        },
+        {
+          "answer": "Protection",
+          "tags": "protection",
+          "successor": -1
+        },
+        {
+          "answer": "Diverses Trainingsmaterial",
+          "tags": "diverses_trainingsmaterial",
+          "successor": 10
+        }
+      ]
+    },
+    {
+      "nodeID": 9,
+      "question": "Wofür brauchst du Equipment?",
+      "imageNames": [
+      	{
+      	  "image": "wofuer_brauchst_du_equipment_f.jpg"
+      	},
+      	{
+      	  "image": "wofuer_brauchst_du_equipment_m.jpg"
+      	}
+      ],
+      "data": [
+        {
+          "answer": "Beweglichkeit",
+          "tags": "beweglichkeit",
+          "successor": -1
+        },
+        {
+          "answer": "Basic Training",
+          "tags": "basic_training",
+          "successor": -1
+        },
+        {
+          "answer": "Protection",
+          "tags": "protection",
+          "successor": -1
+        },
+        {
+          "answer": "Diverses Trainingsmaterial",
+          "tags": "diverses_trainingsmaterial",
+          "successor": 11
+        }
+      ]
+    },
+    {
+      "nodeID": 10,
+      "question": "Wonach bist du auf der Suche?",
+       "imageNames": [
+      	{
+      	  "image": "wonach_bist_du_auf_der_suche_f.jpg"
+      	},
+      	{
+      	  "image": "wonach_bist_du_auf_der_suche_m.jpg"
+      	}
+      ],
+      "data": [
+        {
+          "answer": "Ausdauer",
+          "tags": "ausdauer",
+          "successor": -1
+        },
+        {
+          "answer": "Gewichtheben",
+          "tags": "gewichtheben_hm",
+          "successor": -1
+        },
+        {
+          "answer": "Kettlebell/Dumbbell",
+          "tags": "kettlebell_dumbbell_hm",
+          "successor": -1
+        },
+        {
+          "answer": "Kleines Homegym",
+          "tags": "kleines_homegym_hm",
+          "successor": -1
+        },
+        {
+          "answer": "Komplettes Homegym",
+          "tags": "komplettes_homegym_hm",
+          "successor": -1
+        }
+      ]
+    },
+    {
+      "nodeID": 11,
+      "question": "Wonach bist du auf der Suche?",
+      "imageNames": [
+      	{
+      	  "image": "wonach_bist_du_auf_der_suche_f.jpg"
+      	},
+      	{
+      	  "image": "wonach_bist_du_auf_der_suche_m.jpg"
+      	}
+      ],
+      "data": [
+        {
+          "answer": "Ausdauer",
+          "tags": "ausdauer",
+          "successor": -1
+        },
+        {
+          "answer": "Gewichtheben",
+          "tags": "gewichtheben_hw",
+          "successor": -1
+        },
+        {
+          "answer": "Kettlebell/Dumbbell",
+          "tags": "kettlebell_dumbbell_hw",
+          "successor": -1
+        },
+        {
+          "answer": "Kleines Homegym",
+          "tags": "kleines_homegym_hw",
+          "successor": -1
+        },
+        {
+          "answer": "Komplettes Homegym",
+          "tags": "komplettes_homegym_hw",
+          "successor": -1
+        }
+      ]
+    }
+  ]
+}
